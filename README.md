@@ -1,54 +1,157 @@
-# Storefront Backend Project
+# Storefront Backend
 
-## Getting Started
+## Welcome! 👋
 
-This repo contains a basic Node and Express app to get you started in constructing an API. To get started, clone this repo and run `yarn` in your terminal at the project root.
+**Thanks for checking out my project ❤**
 
-## Required Technologies
-Your application must make use of the following libraries:
-- Postgres for the database
-- Node/Express for the application logic
-- dotenv from npm for managing environment variables
-- db-migrate from npm for migrations
-- jsonwebtoken from npm for working with JWTs
-- jasmine from npm for testing
+**Storefront backend project is an api for store**
 
-## Steps to Completion
+**Note**
 
-### 1. Plan to Meet Requirements
+- **Be sure to update you .env file with environment variables**
 
-In this repo there is a `REQUIREMENTS.md` document which outlines what this API needs to supply for the frontend, as well as the agreed upon data shapes to be passed between front and backend. This is much like a document you might come across in real life when building or extending an API. 
+### Table of contents
 
-Your first task is to read the requirements and update the document with the following:
-- Determine the RESTful route for each endpoint listed. Add the RESTful route and HTTP verb to the document so that the frontend developer can begin to build their fetch requests.    
-**Example**: A SHOW route: 'blogs/:id' [GET] 
+- [Overview](#overview)
+    - [The Project](#The-Project)
 
-- Design the Postgres database tables based off the data shape requirements. Add to the requirements document the database tables and columns being sure to mark foreign keys.   
-**Example**: You can format this however you like but these types of information should be provided
-Table: Books (id:varchar, title:varchar, author:varchar, published_year:varchar, publisher_id:string[foreign key to publishers table], pages:number)
+- [My Process](#my-process)
+    - [Built with](#built-with)
+    - [Scripts to run](#scripts-to-run)
+    - [Endpoints](#endpoints)
+    - [Dependencies](#dependencies)
+    - [Environment Variables](#environment-variables)
+    - [Setting Up Database](#setting-up-database)
+- [Author](#author)
 
-**NOTE** It is important to remember that there might not be a one to one ratio between data shapes and database tables. Data shapes only outline the structure of objects being passed between frontend and API, the database may need multiple tables to store a single shape. 
+## Overview
 
-### 2.  DB Creation and Migrations
+### The Project
 
-Now that you have the structure of the databse outlined, it is time to create the database and migrations. Add the npm packages dotenv and db-migrate that we used in the course and setup your Postgres database. If you get stuck, you can always revisit the database lesson for a reminder. 
+You will be able to:
 
-You must also ensure that any sensitive information is hashed with bcrypt. If any passwords are found in plain text in your application it will not pass.
+- Create user with first name , last name and password
+- Authenticate user to access some routes
+- Get user id, first name and last name [Must be Authenticated]
+- Get all users' id, first name and lastname [Must be Authenticated]
+- Create new product with name, price and category [Must be Authenticated]
+- Get product by its id
+- Get all products' id, name, price and category
+- Get all products in same category
+- Get all active orders for user [Must be Authenticated]
+- Get all completed orders for user [Must be Authenticated]
+- Get top 5 products that got ordered
+- Create new order for user [Must be Authenticated]
+- Add product to order [Must be Authenticated]
 
-### 3. Models
+## My Process
 
-Create the models for each database table. The methods in each model should map to the endpoints in `REQUIREMENTS.md`. Remember that these models should all have test suites and mocks.
+### Built with
 
-### 4. Express Handlers
+- **TypeScript**
+- **Express**
+- **Node**
+- **Postgres**
 
-Set up the Express handlers to route incoming requests to the correct model method. Make sure that the endpoints you create match up with the enpoints listed in `REQUIREMENTS.md`. Endpoints must have tests and be CORS enabled. 
+### Scripts to run
 
-### 5. JWTs
+- To run _nodemon_
 
-Add JWT functionality as shown in the course. Make sure that JWTs are required for the routes listed in `REQUIUREMENTS.md`.
+```
+  npm run start
+```
 
-### 6. QA and `README.md`
+- To build _TypeScript_
 
-Before submitting, make sure that your project is complete with a `README.md`. Your `README.md` must include instructions for setting up and running your project including how you setup, run, and connect to your database. 
+```
+  npm run build
+```
 
-Before submitting your project, spin it up and test each endpoint. If each one responds with data that matches the data shapes from the `REQUIREMENTS.md`, it is ready for submission!
+- To test with _jasmine_
+
+```
+  npm run jasmine
+```
+
+- To run tsc to build _TypeScript_ and test it with _jasmine_
+
+```
+  npm run test 
+```
+
+### Endpoints
+
+1. User Routes
+    1. A Create route '/api/user' [POST]
+    2. An Authenticate route '/api/user/authenticate' [POST]
+    3. A Show User route '/api/user/:id' [GET]
+    4. A Show all Users route '/api/user' [GET]
+2. Product Routes
+    1. A Create route '/api/product' [POST]
+    2. A Show all route '/api/product' [GET]
+    3. A Show product route '/api/product/:id' [GET]
+    4. A Show product by category route '/api/product/category/:category' [GET]
+3. Order Routes
+    1. A Show active orders for user route '/api/orders/:id' [GET]
+    2. A Show completed orders for user route '/api/orders/completed/:id' [GET]
+    3. A Show top 5 products on got ordered route '/api/orders/top5products' [GET]
+    4. An Adding order for user route '/api/orders' [POST]
+    5. An Adding Product for order '/api/orders/:id/products' [POST]
+4. User Orders Routes
+    1. A Show active orders for user route '/api/order-products/:id' [GET]
+    2. A Show completed orders for user route '/api/order-products/completed/:id' [GET]
+    3. A Show top 5 products route '/api/top5products' [GET]
+
+### Dependencies
+
+- typescript
+- Express
+- pg
+- db-migrate
+- db-migrate-pg
+- dotenv
+- jsonwebtoken
+- bcrypt
+- jasmine
+- jasmine Spec Reporter
+- supertest
+
+### Environment Variables
+
+- PORT=3000
+- ENV=dev
+- POSTGRES_HOST=127.0.0.1
+- POSTGRES_PORT=5432
+- POSTGRES_DB=store
+- POSTGRES_TEST_DB=store_test
+- POSTGRES_USERNAME=dany
+- POSTGRES_PASSWORD=dany245
+- BCRYPT_PASSWORD=Your-bcrypt-password
+- SALT_ROUNDS=10
+- TOKEN_SECRET=Your-secret-token
+
+### Setting Up Database
+
+1. **Create User**
+
+```postgresql
+CREATE USER dany WITH PASSWORD 'dany245';
+```
+
+2. **Create Databases**
+
+```postgresql
+CREATE DATABASE store;
+CREATE DATABASE store_test;
+```
+
+3. Grant all privileges to both databases
+
+```postgresql
+GRANT ALL PRIVILEGES ON DATABASE store TO dany;
+GRANT ALL PRIVILEGES ON DATABASE store_test TO dany
+```
+
+## Author
+
+- GitHub - [Ali Ahmed](https://github.com/Dany-GitHub)
